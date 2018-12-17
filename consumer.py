@@ -1,7 +1,14 @@
 from flask import Flask, Response
 from kafka import KafkaConsumer
+import yaml
 
-consumer = KafkaConsumer("testTopic", group_id="view", bootstrap_servers=["0.0.0.0:9092"])
+config = yaml.safe_load(open("config.yml"))
+kafka_client = config["kafka_client"]
+client = f'{kafka_client["uri"]}:{kafka_client["port"]}'
+
+consumer = KafkaConsumer(
+    "testTopic", group_id="view", bootstrap_servers=[client]
+)
 
 app = Flask(__name__)
 

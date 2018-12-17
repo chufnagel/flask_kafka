@@ -1,11 +1,21 @@
 import time
 import cv2
 from kafka import SimpleProducer, KafkaClient
+import yaml
 
-kafka = KafkaClient("localhost:9092")
+config = yaml.safe_load(open("config.yml"))["kafka_client"]
+client_uri = f'{config["uri"]}:{config["port"]}'
+
+kafka = KafkaClient(client_uri)
 producer = SimpleProducer(kafka)
-
 topic = "testTopic"
+
+
+def driver_func(video, reps):
+    i = 0
+    while (i < reps):
+        video_emitter(video)
+
 
 def video_emitter(video):
     video = cv2.VideoCapture(video)
@@ -29,4 +39,4 @@ def video_emitter(video):
 
 
 if __name__ == "__main__":
-    video_emitter("video.mp4")
+    driver_func("video.mp4", 10)

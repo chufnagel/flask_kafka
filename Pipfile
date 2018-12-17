@@ -8,6 +8,7 @@ kafka-python = "*"
 opencv-python = "*"
 flask = "*"
 "flake8" = "*"
+pyyaml = "*"
 
 [dev-packages]
 
